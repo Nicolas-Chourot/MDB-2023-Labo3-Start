@@ -65,8 +65,5 @@ namespace MDB.Controllers
             return RedirectToAction("Login");
         }
         #endregion
-
-       
     }
-
 }
