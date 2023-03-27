@@ -317,17 +317,28 @@ namespace MDB.Models
                         {
                             OnlineUsers.RemoveSessionUser();
                             httpContext.Response.Redirect("~/Accounts/Login?message=Session expirée!");
+                            return false;
                         }
                         else
                         {
                             httpContext.Response.StatusCode = 408; // Timeout status
+                            return false;
                         }
                     }
                 }
                 else
                 {
-                    OnlineUsers.RemoveSessionUser();
-                    httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                    if (ServerSideResponseHandling)
+                    {
+                        OnlineUsers.RemoveSessionUser();
+                        httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                        return false;
+                    }
+                    else
+                    {
+                        httpContext.Response.StatusCode = 403; // Timeout status
+                        return false;
+                    }
                 }
                 return true;
             }
