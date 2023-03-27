@@ -69,7 +69,7 @@ namespace MDB.Models
                 LastAccess = DateTime.Now;
             }
         }
-        private static readonly int TimeOut = 1; // minutes
+        private static readonly int TimeOut = Int32.Parse( WebConfigurationManager.AppSettings["SessionTimeout"]); // minutes
         private static List<UserLastAccess> LastUsersAccess
         {
             get
