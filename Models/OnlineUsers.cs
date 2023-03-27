@@ -336,7 +336,7 @@ namespace MDB.Models
                     }
                     else
                     {
-                        httpContext.Response.StatusCode = 403; // Timeout status
+                        httpContext.Response.StatusCode = 403; // Forbiden status
                         return false;
                     }
                 }
