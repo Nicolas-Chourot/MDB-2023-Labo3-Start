@@ -29,7 +29,7 @@ namespace MDB.Controllers
             return null;
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Create()
         {
             ViewBag.Distributions = null;
@@ -64,7 +64,7 @@ namespace MDB.Controllers
             return RedirectToAction("Index");
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Edit(int id)
         {
             Distributor distributor = DB.Distributors.Find(id);
@@ -93,7 +93,7 @@ namespace MDB.Controllers
             return View(distributor);
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Delete(int id)
         {
             if (DB.RemoveDistributor(id))

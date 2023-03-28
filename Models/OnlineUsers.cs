@@ -70,7 +70,7 @@ namespace MDB.Models
                 LastAccess = DateTime.Now;
             }
         }
-        private static readonly int TimeOut = Int32.Parse( WebConfigurationManager.AppSettings["SessionTimeout"]); // minutes
+        private static readonly int TimeOut = Int32.Parse(WebConfigurationManager.AppSettings["SessionTimeout"]); // minutes
         private static List<UserLastAccess> LastUsersAccess
         {
             get
@@ -257,6 +257,7 @@ namespace MDB.Models
                         {
                             OnlineUsers.RemoveSessionUser();
                             httpContext.Response.Redirect("~/Accounts/Login?message=Session expirée!");
+                            return false;
                         }
                         else
                         {
@@ -271,6 +272,7 @@ namespace MDB.Models
                             {
                                 OnlineUsers.RemoveSessionUser();
                                 httpContext.Response.Redirect("~/Accounts/Login?message=Compte bloqué!");
+                                return false;
                             }
                             else
                             {
@@ -281,19 +283,45 @@ namespace MDB.Models
                 }
                 else
                 {
-                    if (ServerSideResponseHandling)
+                    OnlineUsers.RemoveSessionUser();
+                    httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                    return false;
+                }
+                return true;
+            }
+        }
+        public class PowerUserAccess : AuthorizeAttribute
+        {
+            private bool ServerSideResponseHandling { get; set; }
+            public PowerUserAccess(bool serverSideResponseHandling = true)
+            {
+                ServerSideResponseHandling = serverSideResponseHandling;
+            }
+            protected override bool AuthorizeCore(HttpContextBase httpContext)
+            {
+                User sessionUser = OnlineUsers.GetSessionUser();
+                if (sessionUser != null && sessionUser.IsPowerUser)
+                {
+                    HttpContext.Current.Session["CRUD_Access"] = sessionUser.CRUD_Access;
+                    if (OnlineUsers.SessionExpired(sessionUser.Id, ServerSideResponseHandling))
                     {
-                        try
+                        if (ServerSideResponseHandling)
                         {
                             OnlineUsers.RemoveSessionUser();
-                            httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                            httpContext.Response.Redirect("~/Accounts/Login?message=Session expirée!");
+                            return false;
                         }
-                        catch { return false; }
+                        else
+                        {
+                            httpContext.Response.StatusCode = 408; // Timeout status
+                        }
                     }
-                    else
-                    {
-                        httpContext.Response.StatusCode = 401; // Unauthorized status
-                    }
+                }
+                else
+                {
+                    OnlineUsers.RemoveSessionUser();
+                    httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                    return false;
                 }
                 return true;
             }
@@ -322,23 +350,14 @@ namespace MDB.Models
                         else
                         {
                             httpContext.Response.StatusCode = 408; // Timeout status
-                            return false;
                         }
                     }
                 }
                 else
                 {
-                    if (ServerSideResponseHandling)
-                    {
-                        OnlineUsers.RemoveSessionUser();
-                        httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
-                        return false;
-                    }
-                    else
-                    {
-                        httpContext.Response.StatusCode = 403; // Forbiden status
-                        return false;
-                    }
+                    OnlineUsers.RemoveSessionUser();
+                    httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                    return false;
                 }
                 return true;
             }

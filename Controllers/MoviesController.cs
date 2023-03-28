@@ -27,7 +27,7 @@ namespace MoviesDBManager.Controllers
             return null;
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Create()
         {
             ViewBag.Castings = null;
@@ -68,7 +68,7 @@ namespace MoviesDBManager.Controllers
             return RedirectToAction("Index");
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Edit(int id)
         {
             Movie movie = DB.Movies.Find(id);
@@ -101,7 +101,7 @@ namespace MoviesDBManager.Controllers
             return View(movie);
         }
 
-        [OnlineUsers.AdminAccess]
+        [OnlineUsers.PowerUserAccess]
         public ActionResult Delete(int id)
         {
             if (DB.RemoveMovie(id))

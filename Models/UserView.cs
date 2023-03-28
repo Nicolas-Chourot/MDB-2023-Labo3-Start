@@ -37,14 +37,18 @@ namespace MDB.Models
         public string ConfirmEmail { get; set; }
         [NotMapped]
         public string ConfirmPassword { get; set; }
-               
+
+        public bool IsPowerUser
+        {
+            get { return UserTypeId <= 2 /* Admin = 1 , PowerUser = 2 */; }
+        }
         public bool IsAdmin
         {
             get { return UserTypeId == 1 /* Admin */; }
         }
         public bool CRUD_Access
         { 
-            get { return (UserTypeId == 1 /* Admin */ || UserTypeId == 2 /* PowerUser */); } 
+            get { return IsPowerUser; } 
         }
         public string GetFullName(bool showGender = false)
         {
