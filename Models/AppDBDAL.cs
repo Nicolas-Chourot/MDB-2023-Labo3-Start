@@ -140,6 +140,10 @@ namespace MDB.Models
             try
             {
                 user.CreationDate = DateTime.Now;
+                user.Verified = false;
+                user.Blocked = false;
+                user.UserTypeId = 3; // read only authorization
+ 
                 user.SaveAvatar();
                 user = DB.Users.Add(user);
                 DB.SaveChanges();
