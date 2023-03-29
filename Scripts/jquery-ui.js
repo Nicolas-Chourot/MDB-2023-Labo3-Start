@@ -8591,7 +8591,7 @@ $.widget( "ui.autocomplete", {
 	// Support: Chrome <=50
 	// We should be able to just use this.element.prop( "isContentEditable" )
 	// but hidden elements always report false in Chrome.
-	// https://code.google.com/p/chromium/issues/detail?id=313082
+	// https://code.goggle.com/p/chromium/issues/detail?id=313082
 	_isContentEditable: function( element ) {
 		if ( !element.length ) {
 			return false;
@@ -16589,7 +16589,7 @@ color.fn = jQuery.extend( color.prototype, {
 color.fn.parse.prototype = color.fn;
 
 // Hsla conversions adapted from:
-// https://code.google.com/p/maashaack/source/browse/packages/graphics/trunk/src/graphics/colors/HUE2RGB.as?r=5021
+// https://code.goggle.com/p/maashaack/source/browse/packages/graphics/trunk/src/graphics/colors/HUE2RGB.as?r=5021
 
 function hue2rgb( p, q, h ) {
 	h = ( h + 1 ) % 1;

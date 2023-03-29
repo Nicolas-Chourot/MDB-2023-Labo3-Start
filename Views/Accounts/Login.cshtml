@@ -27,7 +27,7 @@
             <br />
             <div style="display:grid; grid-template-columns:auto 0px">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = @Html.DisplayNameFor(model => model.Password) } })
-                @Helper.Icon("toogleShowPassword", "fa-eye-slash", "Affichier le mot de passe")
+                @Helper.Icon("toggleShowPassword", "fa-eye-slash", "Affichier le mot de passe")
             </div>
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             <br />
@@ -42,17 +42,17 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script defer>
-        $("#toogleShowPassword").hide();
-        $("#toogleShowPassword").click(() => {
+        $("#toggleShowPassword").hide();
+        $("#toggleShowPassword").click(() => {
             $("#Password").attr("type", $("#Password").attr("type") == 'password' ? 'text' : 'password');
-            $("#toogleShowPassword").toggleClass("fa-eye");
-            $("#toogleShowPassword").toggleClass("fa-eye-slash");
+            $("#toggleShowPassword").toggleClass("fa-eye");
+            $("#toggleShowPassword").toggleClass("fa-eye-slash");
         });
         $("#Password").keyup(() => {
             if ($("#Password").val() == "")
-                $("#toogleShowPassword").hide();
+                $("#toggleShowPassword").hide();
             else
-                $("#toogleShowPassword").show();
+                $("#toggleShowPassword").show();
         })
     </script>
 }

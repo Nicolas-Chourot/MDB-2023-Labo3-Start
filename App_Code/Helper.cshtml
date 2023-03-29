@@ -3,7 +3,7 @@
     var Url = new System.Web.Mvc.UrlHelper(HttpContext.Current.Request.RequestContext);
     var avatarUrl = Url.Content(user.GetAvatarURL());
     var linkUrl = Url.Action("Profil", "Accounts");
-    <a href="@linkUrl" data-toogle="tooltip" title="Modifier le profil">
+    <a href="@linkUrl" data-toggle="tooltip" title="Modifier le profil">
         <div class="UserSmallAvatar"
              style="background: url(@avatarUrl)"></div>
     </a>
