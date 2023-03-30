@@ -283,9 +283,16 @@ namespace MDB.Models
                 }
                 else
                 {
-                    OnlineUsers.RemoveSessionUser();
-                    httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
-                    return false;
+                    if (ServerSideResponseHandling)
+                    {
+                        OnlineUsers.RemoveSessionUser();
+                        httpContext.Response.Redirect("~/Accounts/Login?message=Accès non autorisé!");
+                        return false;
+                    }
+                    else
+                    {
+                        httpContext.Response.StatusCode = 401; // Unauthorized status
+                    }
                 }
                 return true;
             }
